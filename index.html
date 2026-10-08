@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حكايتنا مع بعض ❤️</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: linear-gradient(135deg, #2c1630 0%, #11071f 100%);
+            font-family: 'Tahoma', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-align: center;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 40px 30px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 650px;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+        .heart {
+            font-size: 3.5rem;
+            color: #ff3366;
+            animation: pulse 1.5s infinite;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 51, 102, 0.6);
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.25); }
+            100% { transform: scale(1); }
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #ffc2d1;
+            font-weight: 600;
+        }
+        .message {
+            font-size: 1.1rem;
+            color: #e0d1e6;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px;
+            border-radius: 12px;
+            border-right: 4px solid #ff3366;
+        }
+        .counter {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .time-box {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 20px 10px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .time-box:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.12);
+        }
+        .time-box span {
+            display: block;
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+        .time-box label {
+            font-size: 0.95rem;
+            color: #d8b4e2;
+            margin-top: 8px;
+            display: block;
+        }
+        .music-control {
+            margin-top: 20px;
+        }
+        .music-btn {
+            background: linear-gradient(135deg, #ff3366 0%, #ff6b8b 100%);
+            border: none;
+            color: white;
+            padding: 10px 25px;
+            font-size: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255, 51, 102, 0.4);
+            transition: all 0.3s ease;
+        }
+        .music-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(255, 51, 102, 0.6);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="heart">❤️</div>
+        <h1>كل ثانية جنبك بتسوى الدنيا</h1>
+        
+        <!-- تقدر تكتب هنا رسالة حب أو ذكرى حلوة بينكم -->
+        <div class="message">
+            "من يوم ما دخلتي حياتي وكل حاجة اتغيرت وبقت أحلى.. دي بداية حكايتنا والمكتوب لينا نكملو سوا."
+        </div>
+        
+        <div class="counter">
+            <div class="time-box">
+                <span id="days">0</span>
+                <label>يوم</label>
+            </div>
+            <div class="time-box">
+                <span id="hours">0</span>
+                <label>ساعة</label>
+            </div>
+            <div class="time-box">
+                <span id="minutes">0</span>
+                <label>دقيقة</label>
+            </div>
+            <div class="time-box">
+                <span id="seconds">0</span>
+                <label>ثانية</label>
+            </div>
+        </div>
+
+        <!-- تشغيل أغنية في الخلفية -->
+        <div class="music-control">
+            <audio id="bgMusic" loop>
+                <source src="your-song.mp3" type="audio/mp3">
+                متصفحك لا يدعم تشغيل الصوت.
+            </audio>
+            <button class="music-btn" onclick="toggleMusic()">🎶 شغل أغنيتنا</button>
+        </div>
+    </div>
+
+    <script>
+        // تاريخ البداية: 29 ديسمبر 2024، الساعة 1:59 ظهراً (13:59)
+        // لو كنت تقصد 1:59 صباحاً (بالليل)، غير الرقم 13 إلى 1 (01)
+        const startDate = new Date(2024, 11, 29, 13, 59, 0); 
+
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - startDate;
+
+            if (diff > 0) {
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                document.getElementById('days').innerText = days;
+                document.getElementById('hours').innerText = hours;
+                document.getElementById('minutes').innerText = minutes;
+                document.getElementById('seconds').innerText = seconds;
+            }
+        }
+
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        // دالة تشغيل وإيقاف الموسيقى
+        const music = document.getElementById('bgMusic');
+        const musicBtn = document.querySelector('.music-btn');
+        let isPlaying = false;
+
+        function toggleMusic() {
+            if (isPlaying) {
+                music.pause();
+                musicBtn.innerText = "🎶 شغل أغنيتنا";
+                isPlaying = false;
+            } else {
+                music.play().then(() => {
+                    musicBtn.innerText = "🔇 إيقاف الأغنية";
+                    isPlaying = true;
+                }).catch(error => {
+                    alert("عذراً، تأكد من إضافة ملف صوتي صحيح باسم your-song.mp3 في نفس مجلد الموقع.");
+                });
+            }
+        }
+    </script>
+
+</body>
+</html>
