@@ -94,6 +94,10 @@
         }
         .music-control {
             margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
         }
         .music-btn {
             background: linear-gradient(135deg, #ff3366 0%, #ff6b8b 100%);
@@ -105,6 +109,7 @@
             cursor: pointer;
             box-shadow: 0 5px 15px rgba(255, 51, 102, 0.4);
             transition: all 0.3s ease;
+            width: 220px;
         }
         .music-btn:hover {
             transform: scale(1.05);
@@ -118,7 +123,6 @@
         <div class="heart">❤️</div>
         <h1>كل ثانية جنبك بتسوى الدنيا يا منة</h1>
         
-        <!-- تقدر تكتب هنا رسالة حب أو ذكرى حلوة بينكم -->
         <div class="message">
             "من يوم ما دخلتي حياتي وكل حاجة اتغيرت وبقت أحلى.. دي بداية حكايتنا والمكتوب لينا نكملو سوا."
         </div>
@@ -142,19 +146,24 @@
             </div>
         </div>
 
-        <!-- تشغيل أغنية في الخلفية -->
+        <!-- أزرار الأغاني في الخلفية -->
         <div class="music-control">
-            <audio id="bgMusic" loop>
+            <!-- الأغنية الأولى -->
+            <audio id="song1" loop>
                 <source src="your-song.mp3" type="audio/mp3">
-                متصفحك لا يدعم تشغيل الصوت.
             </audio>
-            <button class="music-btn" onclick="toggleMusic()">🎶 شغل أغنيتنا</button>
+            <button class="music-btn" id="btn1" onclick="toggleSong('song1', 'btn1')">🎶 شغل أغنيتنا</button>
+
+            <!-- الأغنية التانية -->
+            <audio id="song2" loop>
+                <source src="song2.mp3" type="audio/mp3">
+            </audio>
+            <button class="music-btn" id="btn2" onclick="toggleSong('song2', 'btn2')">🎶 شغل اغنيتنا التانية</button>
         </div>
     </div>
 
     <script>
         // تاريخ البداية: 29 ديسمبر 2024، الساعة 1:59 ظهراً (13:59)
-        // لو كنت تقصد 1:59 صباحاً (بالليل)، غير الرقم 13 إلى 1 (01)
         const startDate = new Date(2024, 11, 29, 13, 59, 0); 
 
         function updateTimer() {
@@ -177,23 +186,40 @@
         setInterval(updateTimer, 1000);
         updateTimer();
 
-        // دالة تشغيل وإيقاف الموسيقى
-        const music = document.getElementById('bgMusic');
-        const musicBtn = document.querySelector('.music-btn');
-        let isPlaying = false;
+        // دالة التحكم في تشغيل وإيقاف الأغاني (تضمن عدم تداخل الأصوات)
+        function toggleSong(songId, btnId) {
+            const song1 = document.getElementById('song1');
+            const song2 = document.getElementById('song2');
+            const btn1 = document.getElementById('btn1');
+            const btn2 = document.getElementById('btn2');
 
-        function toggleMusic() {
-            if (isPlaying) {
-                music.pause();
-                musicBtn.innerText = "🎶 شغل أغنيتنا";
-                isPlaying = false;
-            } else {
-                music.play().then(() => {
-                    musicBtn.innerText = "🔇 إيقاف الأغنية";
-                    isPlaying = true;
+            const currentSong = document.getElementById(songId);
+            const currentBtn = document.getElementById(btnId);
+
+            if (currentSong.paused) {
+                // إيقاف الأغنيتين قبل تشغيل الجديدة
+                song1.pause();
+                song2.pause();
+                btn1.innerText = "🎶 شغل أغنيتنا";
+                btn2.innerText = "🎶 شغل اغنيتنا التانية";
+
+                // تشغيل الأغنية المطلوبة
+                currentSong.play().then(() => {
+                    if (songId === 'song1') {
+                        currentBtn.innerText = "🔇 إيقاف الأغنية الأولى";
+                    } else {
+                        currentBtn.innerText = "🔇 إيقاف الأغنية التانية";
+                    }
                 }).catch(error => {
-                    alert("عذراً، تأكد من إضافة ملف صوتي صحيح باسم your-song.mp3 في نفس مجلد الموقع.");
+                    alert("تأكد من وجود ملف الصوت الصحيح (your-song.mp3 أو song2.mp3) في نفس مجلد الموقع.");
                 });
+            } else {
+                currentSong.pause();
+                if (songId === 'song1') {
+                    currentBtn.innerText = "🎶 شغل أغنيتنا";
+                } else {
+                    currentBtn.innerText = "🎶 شغل اغنيتنا التانية";
+                }
             }
         }
     </script>
